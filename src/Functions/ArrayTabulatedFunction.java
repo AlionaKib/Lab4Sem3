@@ -1,9 +1,11 @@
 package Functions;
 
+import java.io.Serializable;
+
 /**
  * Created by Алена on 15.09.2018.
  */
-public class ArrayTabulatedFunction implements TabulatedFunction{
+public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
     private FunctionPoint[] functionPoints;
 
     public ArrayTabulatedFunction(FunctionPoint[] functionPoints){

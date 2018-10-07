@@ -1,9 +1,11 @@
 package Functions;
 
+import java.io.Serializable;
+
 /**
  * Created by Алена on 02.10.2018.
  */
-public class LinkedListTabulatedFunction implements TabulatedFunction{    //реализация функционала списка
+public class LinkedListTabulatedFunction implements TabulatedFunction, Serializable {    //реализация функционала списка
 
     class FunctionNode {       //узел списка, который хранит в себе ссылку на предыдущий и следующий элемент
 
@@ -58,6 +60,9 @@ public class LinkedListTabulatedFunction implements TabulatedFunction{    //ре
 
     public LinkedListTabulatedFunction(FunctionPoint[] functionPoints){
         if(functionPoints.length<2) throw new IllegalArgumentException();
+        head = new FunctionNode();
+        head.setNext(head);
+        head.setPrevious(head);
         for(int i = 0; i<functionPoints.length-1; ++i){
             if(functionPoints[i].getX()>functionPoints[i+1].getX()) throw new IllegalArgumentException();
             this.addNodeToTail().setElement(functionPoints[i]);

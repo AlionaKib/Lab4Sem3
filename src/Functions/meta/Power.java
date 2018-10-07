@@ -10,7 +10,7 @@ public class Power implements Function {
     private double degree;
 
     public Power(Function function1, double degree) {
-        this.function = function;
+        this.function = function1;
         this.degree = degree;
     }
 
