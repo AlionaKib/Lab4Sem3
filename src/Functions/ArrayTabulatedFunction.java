@@ -1,12 +1,14 @@
 package Functions;
 
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * Created by Алена on 15.09.2018.
  */
-public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
+public class ArrayTabulatedFunction implements TabulatedFunction, /*Serializable,*/ Externalizable {
     private FunctionPoint[] functionPoints;
+
+    public ArrayTabulatedFunction(){}
 
     public ArrayTabulatedFunction(FunctionPoint[] functionPoints){
         if(functionPoints.length<2) throw new IllegalArgumentException();
@@ -134,5 +136,21 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
                     functionPoints[j] = functionPoints[j+1];
                     functionPoints[j+1] = point;
                 }
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(getPointCount());
+        for(int i=0; i < getPointCount(); ++i){
+            out.writeObject(functionPoints[i]);
+        }
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        this.functionPoints = new FunctionPoint[in.readInt()];
+        for(int i=0; i<getPointCount(); ++i){
+            functionPoints[i] = (FunctionPoint)in.readObject();
+        }
     }
 }

@@ -85,6 +85,8 @@ public class Test1 {
         FileOutputStream out;
         FileInputStream in;
         File file;
+        ObjectOutputStream obOut;
+        ObjectInputStream obIn;
         TabulatedFunction readedTabulatedExp;
         TabulatedFunction readedTabulatedLog;
         TabulatedFunction readedTabulatedLogExp;
@@ -107,7 +109,7 @@ public class Test1 {
             for(int i=0; i<11; ++i){
                 System.out.println("x = " + i + ", exp(x) = " + tabulatedExp.getFunctionValue(i) + ", readed exp(x) = " + readedTabulatedExp.getFunctionValue(i));
             }
-            file = new File("TabulatedLog");
+            file = new File("TabulatedLog.txt");
             out = new FileOutputStream(file);
             outputTabulatedFunction(tabulatedLog,out);
             out.close();
@@ -118,8 +120,22 @@ public class Test1 {
             for(int i=1; i<12; ++i){
                 System.out.println("x = " + i + ", log(x) = " + tabulatedLog.getFunctionValue(i) + ", readed log(x) = " + readedTabulatedLog.getFunctionValue(i));
             }
+            file = new File("SerializedTabulatedLogExp.txt");
+            out = new FileOutputStream(file);
+            obOut = new ObjectOutputStream(out);
+            obOut.writeObject(tabulatedLogExp);
+            out.close();
+            in = new FileInputStream(file);
+            obIn = new ObjectInputStream(in);
+            readedTabulatedLogExp = (TabulatedFunction) obIn.readObject();
+            System.out.println("Tabulated log(exp):");
+            for(int i=0; i<11; ++i){
+                System.out.println("x = " + i + ", log(exp(x)) = " + tabulatedLogExp.getFunctionValue(i) + ", readed log(exp(x)) = " + readedTabulatedLogExp.getFunctionValue(i));
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            e.getStackTrace();
         }
     }
 
